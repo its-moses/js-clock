@@ -1,26 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // console.log("DOM fully loaded and parsed");
+    
 
 s = 1000
 m = 60*s
 h = 60*m
-let date = new Date();
-let hour = document.getElementById('hour')
-let minute = document.getElementById('minutes')
-let second = document.getElementById('seconds')
 const weatherButton = document.getElementById('weather-button');
 const weatherContent = document.getElementById('weather-content');
 weatherButton.addEventListener('click', () => {
     if (!weatherContent.classList.contains('visible')) {
-        weatherContent.classList.add('visible'); // Add visible class to expand height
-        weatherContent.classList.remove('opacity-0'); // Remove opacity-0 to fade in
-        weatherContent.classList.add('opacity-100'); // Set opacity to 100
+        weatherContent.classList.add('visible'); 
+        weatherContent.classList.remove('opacity-0'); 
+        weatherContent.classList.add('opacity-100'); 
     } else {
-        weatherContent.classList.remove('opacity-100'); // Fade out
+        weatherContent.classList.remove('opacity-100'); 
         weatherContent.classList.add('opacity-0');
         setTimeout(() => {
-            weatherContent.classList.remove('visible'); // Collapse height after fading out
-        }, 500); // Match duration to fade out
+            weatherContent.classList.remove('visible'); 
+        }, 500); 
     }
 });
 
