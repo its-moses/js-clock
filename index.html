@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Digital Clock</title>
+    <style>
+        /* Custom styles for transition */
+        .dark {
+            background-color: #1f2937; /* Dark background */
+           
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out forwards; /* Fade-in animation */
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px); /* Slide from below */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .weather-content {
+            height: 0; /* Start with a height of 0 */
+            overflow: hidden; /* Prevent overflow */
+            transition: height 0.5s ease; /* Transition for height change */
+        }
+        .weather-content.visible {
+            height: 100px; /* Set to desired height when visible */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300 flex items-center justify-center h-screen">
+    <div class="flex flex-col items-center">
+        <!-- Clock Container -->
+        <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 text-center transition-colors duration-300">
+            <h1 class="text-5xl font-bold" id="digital-clock">00:00:00</h1>
+            <p class="text-gray-500 mt-2" id="current-date">October 15, 2024</p>
+            <button id="weather-button" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">
+                Weather
+            </button>
+        </div>
+
+        <!-- Weather content div, now with a fixed height -->
+        <div id="weather-content" class="weather-content transition-opacity duration-500 opacity-0 w-full flex justify-center mt-4">
+            <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 text-center w-1/2 fade-in">
+                <p class="text-gray-700 dark:text-gray-300">Weather content goes here.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Button for Dark/Light Mode -->
+    <button id="theme-toggle" class="fixed bottom-6 right-6 bg-gray-800 text-white rounded-full p-3 shadow-lg hover:bg-gray-700 transition duration-300">
+        🌙
+    </button>
+
+    <script src="./script.js"></script>
+</body>
+</html>
