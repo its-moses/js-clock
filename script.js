@@ -21,6 +21,8 @@ weatherButton.addEventListener('click', () => {
 });
 
 
+
+// api key = e121c4a9d2664adc8b5160436241510
 setInterval(() => {
     let d = new Date()
     hour_val = d.getHours()
