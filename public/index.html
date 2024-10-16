@@ -47,8 +47,16 @@
 
         <!-- Weather content div, now with a fixed height -->
         <div id="weather-content" class="weather-content transition-opacity duration-500 opacity-0 w-full flex justify-center mt-4">
-            <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 text-center w-1/2 fade-in">
-                <p class="text-gray-700 dark:text-gray-300">Weather content goes here.</p>
+            <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 text-center w-1/2 fade-in">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">Current Weather</h2>
+                <div id="weather-info" class="flex items-center justify-center mb-4">
+                    <img id="weather-icon" src="" alt="Weather Icon" class="w-16 h-16 hidden">
+                    <div class="ml-4">
+                        <p id="temperature" class="text-4xl font-semibold text-gray-800 dark:text-gray-200"></p>
+                        <p id="condition" class="text-lg text-gray-600 dark:text-gray-300"></p>
+                    </div>
+                </div>
+                <p id="wind-speed" class="text-md text-gray-600 dark:text-gray-400"></p>
             </div>
         </div>
     </div>
