@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,64 +9,70 @@
     <style>
         /* Custom styles for transition */
         .dark {
-            background-color: #1f2937; /* Dark background */
-           
+            background-color: rgb(31 41 55);
+            /* Dark background */
+
         }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out forwards; /* Fade-in animation */
+
+        .grid {
+            max-width: 100%;
+            /* Ensures the grid doesn't exceed the container */
         }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px); /* Slide from below */
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .flex-col {
+            align-items: center;
+            /* Center items in each cell */
         }
-        .weather-content {
-            height: 0; /* Start with a height of 0 */
-            overflow: hidden; /* Prevent overflow */
-            transition: height 0.5s ease; /* Transition for height change */
+
+        .text-gray-800 {
+            color: #1f2937;
+            /* Dark text */
         }
-        .weather-content.visible {
-            height: 100px; /* Set to desired height when visible */
+
+        .dark .text-gray-200 {
+            color: #e5e7eb;
+            /* Light text for dark mode */
         }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300 flex items-center justify-center h-screen">
-    <div class="flex flex-col items-center">
-        <!-- Clock Container -->
-        <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 text-center transition-colors duration-300">
-            <h1 class="text-5xl font-bold" id="digital-clock">00:00:00</h1>
-            <p class="text-gray-500 mt-2" id="current-date"></p>
-            <button id="weather-button" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">
-                Weather
-            </button>
-        </div>
 
-        <!-- Weather content div, now with a fixed height -->
-        <div id="weather-content" class="weather-content transition-opacity duration-500 opacity-0 w-full flex justify-center mt-4">
-            <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 text-center w-1/2 fade-in">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4">Current Weather</h2>
-                <div id="weather-info" class="flex items-center justify-center mb-4">
-                    <img id="weather-icon" src="" alt="Weather Icon" class="w-16 h-16 hidden">
-                    <div class="ml-4">
-                        <p id="temperature" class="text-4xl font-semibold text-gray-800 dark:text-gray-200"></p>
-                        <p id="condition" class="text-lg text-gray-600 dark:text-gray-300"></p>
+<body class="bg-gray-100 px-4 dark:bg-gray-900 transition-colors duration-300 flex items-center justify-center h-screen">
+    <div class="flex flex-col items-center">
+        <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 text-center transition-colors duration-300">
+            <h1 class="text-5xl font-bold" id="digital-clock"></h1>
+            <p class="text-gray-500 mt-2" id="current-date"></p>
+            <div class="grid grid-cols-2 gap-4 mt-4">
+
+                <div id="image" class="flex flex-col items-center">
+                </div>
+    
+                <div class="flex flex-col items-center">
+                    <p id="temperature" class="text-5xl font-semibold text-gray-800 dark:text-gray-200"></p>
+                </div>
+    
+                <div class="flex flex-col items-center">
+                    <p id="condition" class="text-lg font-medium text-gray-700 dark:text-gray-300"></p>
+                </div>
+    
+                <div class="flex flex-col items-center">
+                    <p id="wind-speed" class="text-md font-light text-gray-600 dark:text-gray-400"></p>
+                </div>
+                <div class="flex flex-col items-center  col-span-2">
+                    <div id="location" class="flex flex-col items-center">
                     </div>
                 </div>
-                <p id="wind-speed" class="text-md text-gray-600 dark:text-gray-400"></p>
             </div>
         </div>
+            
     </div>
+    
 
-    <!-- Floating Button for Dark/Light Mode -->
-    <button id="theme-toggle" class="fixed bottom-6 right-6 bg-gray-800 text-white rounded-full p-3 shadow-lg hover:bg-gray-700 transition duration-300">
+    <button id="theme-toggle"
+        class="fixed bottom-6 right-6 bg-gray-800 text-white rounded-full p-3 shadow-lg hover:bg-gray-700 transition duration-300">
         🌙
     </button>
 
     <script src="./script.js"></script>
 </body>
+
 </html>
