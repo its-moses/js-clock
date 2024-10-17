@@ -4,50 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="./css/output.css" rel="stylesheet">
+
     <title>Digital Clock</title>
     <style>
-        /* Custom styles for transition */
-        .dark {
-            background-color: rgb(31 41 55);
-            /* Dark background */
-
-        }
+       
+        
 
         .grid {
             max-width: 100%;
-            /* Ensures the grid doesn't exceed the container */
+            
         }
 
         .flex-col {
             align-items: center;
-            /* Center items in each cell */
+            
         }
 
-        .text-gray-800 {
-            color: #1f2937;
-            /* Dark text */
+        @keyframes slide-down {
+            0% {
+                transform: translateY(-100%); 
+                opacity: 0;                   
+            }
+            100% {
+                transform: translateY(0);     
+                opacity: 1;                   
+            }
         }
 
-        .dark .text-gray-200 {
-            color: #e5e7eb;
-            /* Light text for dark mode */
+        .slide-down {
+            animation: slide-down 0.5s ease forwards; 
         }
+
+        #block {
+            display: none; 
+        }
+        
     </style>
 </head>
 
-<body class="bg-gray-100 px-4 dark:bg-gray-900 transition-colors duration-300 flex items-center justify-center h-screen">
+<body class="bg-gray-100 px-4 dark:bg-gray-900  flex items-center justify-center h-screen">
     <div class="flex flex-col items-center">
-        <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 text-center transition-colors duration-300">
-            <h1 class="text-5xl font-bold" id="digital-clock"></h1>
-            <p class="text-gray-500 mt-2" id="current-date"></p>
+        <div id="block" class="hidden bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 text-center">
+            <h1 class="text-5xl font-bold text-gray-800 dark:text-gray-200" id="digital-clock"></h1>
+            <p class="mt-2 text-gray-700 dark:text-gray-400" id="current-date"></p>
             <div class="grid grid-cols-2 gap-4 mt-4">
 
                 <div id="image" class="flex flex-col items-center">
                 </div>
     
                 <div class="flex flex-col items-center">
-                    <p id="temperature" class="text-5xl font-semibold text-gray-800 dark:text-gray-200"></p>
+                    <p id="temperature" class="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-3"></p>
                 </div>
     
                 <div class="flex flex-col items-center">
@@ -55,7 +62,7 @@
                 </div>
     
                 <div class="flex flex-col items-center">
-                    <p id="wind-speed" class="text-md font-light text-gray-600 dark:text-gray-400"></p>
+                    <p id="wind-speed" class="text-lg font-medium text-gray-700 dark:text-gray-400"></p>
                 </div>
                 <div class="flex flex-col items-center  col-span-2">
                     <div id="location" class="flex flex-col items-center">
@@ -65,12 +72,7 @@
         </div>
             
     </div>
-    
 
-    <button id="theme-toggle"
-        class="fixed bottom-6 right-6 bg-gray-800 text-white rounded-full p-3 shadow-lg hover:bg-gray-700 transition duration-300">
-        🌙
-    </button>
 
     <script src="./script.js"></script>
 </body>

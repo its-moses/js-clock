@@ -2,14 +2,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(
       function (position) {
-        const lat = position.coords.latitude; // Get latitude
-        const lng = position.coords.longitude; // Get longitude
+        const lat = position.coords.latitude; 
+        const lng = position.coords.longitude; 
         console.log(lat, lng);
 
+        getWeather(lat, lng);
+
+        
         s = 1000
         m = 60 * s
         h = 60 * m
@@ -26,30 +28,27 @@ document.addEventListener("DOMContentLoaded", () => {
           value.innerHTML = `${hour_val.toString().padStart(2, '0')}:${min_val.toString().padStart(2, '0')}:${sec_val.toString().padStart(2, '0')} ${zone}`
         }, s);
 
-        getWeather(lat, lng);
 
         setInterval(() => {
           getWeather(lat, lng);
-        }, h);
+        }, 5 * h);
 
       },
       function (error) {
         console.error("Error getting user location:", error);
       },
       {
-        enableHighAccuracy: true, // For better precision if outdoors
-        timeout: 5000             // Max time to wait for location fix
+        enableHighAccuracy: true, 
+        timeout: 5000             
       }
     );
   } else {
     console.error("Geolocation is not supported by this browser.");
   }
 
-  //   document.getElementById("weather-button").addEventListener("click", function () {
-  // });
 
   function getWeather(lat, lng) {
-    const apiUrl = `http://localhost:3000/weather?lat=${lat}&lon=${lng}`; // Call the server endpoint with query parameters
+    const apiUrl = `.netlify/functions/weather?lat=${lat}&lon=${lng}`; 
 
     fetch(apiUrl)
       .then(response => {
@@ -69,27 +68,47 @@ document.addEventListener("DOMContentLoaded", () => {
         conditionIcon = conditionIcon.replace("//", "https://");
         const windSpeed = data.current.wind_kph;
 
-        document.getElementById("temperature").innerHTML = `${temperature}°C`;
-        document.getElementById("condition").textContent = conditionText;
-        document.getElementById("wind-speed").textContent = `Wind Speed: ${windSpeed} kph`;
+        setTimeout(() => {
 
-        let div = document.getElementById('image');
-        let loc_image = document.getElementById('location')
-        loc_image.innerHTML = `<p><b>${loc_emoji} ${location}</b></p>`;
 
-        div.innerHTML = `<img id="weather-icon" src='${conditionIcon}' class="w-20 h-20">`;
+          let block = document.getElementById("block");
+          block.classList.remove('hidden'); 
+          block.style.display = 'block'; 
+          block.classList.add('slide-down'); 
+
+          document.getElementById("temperature").innerHTML = `${temperature}°C`;
+          document.getElementById("condition").textContent = conditionText;
+          document.getElementById("wind-speed").textContent = `Wind Speed: ${windSpeed} kph`;
+
+          let div = document.getElementById('image');
+          let loc_image = document.getElementById('location')
+          loc_image.innerHTML = `<p class="text-gray-800 dark:text-gray-200"><b>${loc_emoji} ${location}</b></p>`;
+
+          div.innerHTML = `<img id="weather-icon" src='${conditionIcon}' class="w-20 h-20">`;
+
+
+
+
+        }, 1500)
       })
       .catch(error => {
         console.error("Error fetching weather data:", error);
       });
   }
 
-  const themeToggle = document.getElementById('theme-toggle');
 
-  themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    themeToggle.innerText = document.body.classList.contains('dark') ? '☀️' : '🌙'; // Change icon based on theme
-  });
+  document.documentElement.classList.toggle(
+    'dark',
+    localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  )
 
+
+  localStorage.theme = 'light'
+
+
+  localStorage.theme = 'dark'
+
+
+  localStorage.removeItem('theme')
 
 });
