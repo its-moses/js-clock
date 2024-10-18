@@ -5,13 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(
       function (position) {
-        const lat = position.coords.latitude; 
-        const lng = position.coords.longitude; 
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
         console.log(lat, lng);
 
         getWeather(lat, lng);
 
-        
+
         s = 1000
         m = 60 * s
         h = 60 * m
@@ -27,19 +27,36 @@ document.addEventListener("DOMContentLoaded", () => {
           value = document.getElementById('digital-clock')
           value.innerHTML = `${hour_val.toString().padStart(2, '0')}:${min_val.toString().padStart(2, '0')}:${sec_val.toString().padStart(2, '0')} ${zone}`
         }, s);
+        let lastFetchTime = Date.now(); 
 
+        navigator.geolocation.watchPosition(
+          function (newPosition) {
+            const newLat = newPosition.coords.latitude;
+            const newLng = newPosition.coords.longitude;
 
-        setInterval(() => {
-          getWeather(lat, lng);
-        }, 1*m);
-
+            const now = Date.now();
+            if (now - lastFetchTime >= 1 * 60 * 1000) {
+              getWeather(newLat, newLng); 
+              lastFetchTime = now; 
+            }
+          },
+          function (error) {
+            console.error("Error getting user location:", error);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0 
+          }
+        );
       },
       function (error) {
         console.error("Error getting user location:", error);
       },
       {
-        enableHighAccuracy: true, 
-        timeout: 5000             
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0 
       }
     );
   } else {
@@ -47,50 +64,51 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
+
+
   async function getWeather(lat, lng) {
     const apiUrl = `.netlify/functions/weather?lat=${lat}&lon=${lng}`;
-  
+
     try {
       const response = await fetch(apiUrl);
-  
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-  
+
       const data = await response.json();
-  
+
       const temperature = data.current.temp_c;
       const conditionText = data.current.condition.text;
       let conditionIcon = data.current.condition.icon;
       let location = data.location.name;
       const loc_emoji = '📍';
-  
+
       conditionIcon = conditionIcon.replace("//", "https://");
       const windSpeed = data.current.wind_kph;
-  
-      // Adding a delay before showing the weather data
+
       setTimeout(() => {
         let block = document.getElementById("block");
         block.classList.remove('hidden');
         block.style.display = 'block';
         block.classList.add('slide-down');
-  
+
         document.getElementById("temperature").innerHTML = `${temperature}°C`;
         document.getElementById("condition").textContent = conditionText;
         document.getElementById("wind-speed").textContent = `Wind Speed: ${windSpeed} kph`;
-  
+
         let div = document.getElementById('image');
         let loc_image = document.getElementById('location');
         loc_image.innerHTML = `<p class="text-gray-800 dark:text-gray-200"><b>${loc_emoji} ${location}</b></p>`;
-  
+
         div.innerHTML = `<img id="weather-icon" src='${conditionIcon}' class="w-20 h-20">`;
       }, 1500);
-  
+
     } catch (error) {
       console.error("Error fetching weather data:", error);
     }
   }
-  
+
 
 
   document.documentElement.classList.toggle(
