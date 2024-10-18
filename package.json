@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:css": "npx tailwindcss -i ./public/css/styles.css -o ./public/css/output.css --watch"
-  },
+  "build:css": "npx tailwindcss -i ./public/css/styles.css -o ./public/css/output.css",
+  "watch:css": "npx tailwindcss -i ./public/css/styles.css -o ./public/css/output.css --watch",
+  "start": "npm run watch:css" 
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
