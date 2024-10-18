@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setInterval(() => {
           getWeather(lat, lng);
-        }, 5 * h);
+        }, 1*m);
 
       },
       function (error) {
@@ -47,54 +47,50 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  function getWeather(lat, lng) {
-    const apiUrl = `.netlify/functions/weather?lat=${lat}&lon=${lng}`; 
-
-    fetch(apiUrl)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then(data => {
-
-        const temperature = data.current.temp_c;
-        const conditionText = data.current.condition.text;
-        let conditionIcon = data.current.condition.icon;
-        let location = data.location.name;
-        loc_emoji = '📍';
-
-        conditionIcon = conditionIcon.replace("//", "https://");
-        const windSpeed = data.current.wind_kph;
-
-        setTimeout(() => {
-
-
-          let block = document.getElementById("block");
-          block.classList.remove('hidden'); 
-          block.style.display = 'block'; 
-          block.classList.add('slide-down'); 
-
-          document.getElementById("temperature").innerHTML = `${temperature}°C`;
-          document.getElementById("condition").textContent = conditionText;
-          document.getElementById("wind-speed").textContent = `Wind Speed: ${windSpeed} kph`;
-
-          let div = document.getElementById('image');
-          let loc_image = document.getElementById('location')
-          loc_image.innerHTML = `<p class="text-gray-800 dark:text-gray-200"><b>${loc_emoji} ${location}</b></p>`;
-
-          div.innerHTML = `<img id="weather-icon" src='${conditionIcon}' class="w-20 h-20">`;
-
-
-
-
-        }, 1500)
-      })
-      .catch(error => {
-        console.error("Error fetching weather data:", error);
-      });
+  async function getWeather(lat, lng) {
+    const apiUrl = `.netlify/functions/weather?lat=${lat}&lon=${lng}`;
+  
+    try {
+      const response = await fetch(apiUrl);
+  
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+  
+      const data = await response.json();
+  
+      const temperature = data.current.temp_c;
+      const conditionText = data.current.condition.text;
+      let conditionIcon = data.current.condition.icon;
+      let location = data.location.name;
+      const loc_emoji = '📍';
+  
+      conditionIcon = conditionIcon.replace("//", "https://");
+      const windSpeed = data.current.wind_kph;
+  
+      // Adding a delay before showing the weather data
+      setTimeout(() => {
+        let block = document.getElementById("block");
+        block.classList.remove('hidden');
+        block.style.display = 'block';
+        block.classList.add('slide-down');
+  
+        document.getElementById("temperature").innerHTML = `${temperature}°C`;
+        document.getElementById("condition").textContent = conditionText;
+        document.getElementById("wind-speed").textContent = `Wind Speed: ${windSpeed} kph`;
+  
+        let div = document.getElementById('image');
+        let loc_image = document.getElementById('location');
+        loc_image.innerHTML = `<p class="text-gray-800 dark:text-gray-200"><b>${loc_emoji} ${location}</b></p>`;
+  
+        div.innerHTML = `<img id="weather-icon" src='${conditionIcon}' class="w-20 h-20">`;
+      }, 1500);
+  
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+    }
   }
+  
 
 
   document.documentElement.classList.toggle(
