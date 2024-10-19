@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, s);
         let lastFetchTime = Date.now(); 
 
-        navigator.geolocation.watchPosition(
+        navigator.geolocation.getCurrentPosition(
           function (newPosition) {
             const newLat = newPosition.coords.latitude;
             const newLng = newPosition.coords.longitude;
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           {
             enableHighAccuracy: true,
-            timeout: 5000,
+            timeout: 10000,
             maximumAge: 0 
           }
         );
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       {
         enableHighAccuracy: true,
-        timeout: 5000,
+        timeout: 10000,
         maximumAge: 0 
       }
     );
