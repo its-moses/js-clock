@@ -11,7 +11,7 @@ This is a simple JavaScript project that displays the current time as a digital 
 
 ## API used
 
-- WeatherAPI[(https://www.weatherapi.com/my/)]
+- [WeatherAPI](https://www.weatherapi.com/my/)
 
 ## Technologies Used
 
